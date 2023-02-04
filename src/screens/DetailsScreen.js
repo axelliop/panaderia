@@ -1,11 +1,16 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
 
-import React from 'react'
+const DetailsScreen = ({navigation, route}) => {
 
-const DetailsScreen = ({navigation}) => {
+useEffect(() => {
+console.log(route.params)
+}, [])
+
+
   return (
     <View>
-      <Text>DetailsScreen</Text>
+      <Text>{route.params.name}</Text>
       <Button title='Go to categories' onPress={() => navigation.popToTop()}/>
     </View>
   )

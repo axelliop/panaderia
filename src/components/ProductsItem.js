@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
+import {PRODUCTS} from '../data/Products';
 import React from 'react'
 
-const ProductsItem = () => {
+const ProductsItem = ({item, onSelected}) => {
   return (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer} onPress={() => onSelected(item)}>
       <View style={styles.imageContainer}>
       <Image
         style={styles.tinyLogo}
@@ -14,11 +15,11 @@ const ProductsItem = () => {
        />
       </View>
       <View style={styles.textContainer}>
-        <Text>Nombre</Text>
-        <Text>Descripcion</Text>
-        <Text>Precio</Text>
+        <Text>{item.name}</Text>
+        <Text>{item.description}</Text>
+        <Text>{item.price}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         borderRadius: 10,
+        padding: 20,
         margin: 10,
         shadowColor: 'black',
         shadowOpacity: 0.5,

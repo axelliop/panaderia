@@ -14,10 +14,10 @@ export default ShopNavigator = () => {
 
 
   return (
-    <NavigationContainer> 
+
       <Stack.Navigator initialRouteName="Categories" screenOptions={{  /* screenOptions para todas las pantallas */
-        headerStyle: {backgroundColor: COLORS.primary }, 
-        headerTintColor: COLORS.secondary,
+      headerShadowVisible: false, 
+
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -32,9 +32,8 @@ export default ShopNavigator = () => {
         <Stack.Screen name="Products" component={ProductsScreen} options={({route}) => ({
           title: route.params.title
         })}/>
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} options={({route}) => ({ 
+          title: route.params.name})}/>
 
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+      </Stack.Navigator>  );
 };
