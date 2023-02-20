@@ -1,17 +1,27 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { Button, StyleSheet, Text, View } from "react-native"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
-const DetailsScreen = ({navigation, route}) => {
+import { addItem } from "../store/actions/cart.action"
 
-useEffect(() => {
-console.log(route.params)
-}, [])
+const DetailsScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch()
+  const bread = useSelector(state => state.products.selected)
 
+  useEffect(() => {
+    console.log(route.params)
+  }, [])
+
+  const handleAddItem = () => {
+    dispatch(addItem(bread))
+  }
 
   return (
-    <View>
-      <Text>{route.params.name}</Text>
-      <Button title='Go to categories' onPress={() => navigation.popToTop()}/>
+    <View style={styles.container}>
+      <Text>{bread.name}</Text>
+      <Text>{bread.description}</Text>
+      <Text>{bread.price}</Text>
+      <Button title="Add to cart" onPress={handleAddItem} />
     </View>
   )
 }
@@ -19,11 +29,9 @@ console.log(route.params)
 export default DetailsScreen
 
 const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 })
-

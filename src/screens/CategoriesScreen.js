@@ -1,31 +1,35 @@
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
+import { Button, FlatList, StyleSheet, Text, View } from "react-native"
+import { useDispatch, useSelector } from "react-redux"
 
-import { CATEGORIES } from '../data/Cateagories'
-import CategoriesItem from '../components/CategoriesItem'
-import React from 'react'
+import CategoriesItem from "../components/CategoriesItem"
+import React from "react"
+import { selectedCategory } from "../store/actions/category.action"
 
-const CategoriesScreen = ({navigation}) => { /* SIEMPRE HAY QUE LLAMAR A LA PROP DE NAVIGATION, YA QUE DE ESA FORMA ESTOY INDICANDO A DONDE QUIERO NAVEGAR */
+const CategoriesScreen = ({ navigation }) => {
+  const categories = useSelector(state => state.categories.categories)
+  const dispatch = useDispatch()
 
-const handleSelectedCategory = item => {
-  navigation.navigate('Products', {
-    categoryId: item.id,
-    title: item.title, /* le estaria pasando info como objetos, como si fuesen props */
-  })
-}
+  const handleSelectedCategory = item => {
+    dispatch(selectedCategory(item.id))
+    navigation.navigate("Products", {
+      //categoryId: item.id,
+      title: item.title,
+    })
+  }
 
-const renderCategoriesItem = ({item}) => (
-  <View style={styles.categoriesContainer}>
-  <CategoriesItem item={item} onSelected={handleSelectedCategory}/>
-  </View>
-)
+  const renderCategoriesItem = ({ item }) => (
+    <View style={styles.categoriesContainer}>
+      <CategoriesItem item={item} onSelected={handleSelectedCategory} />
+    </View>
+  )
 
   return (
     <View style={styles.container}>
-      <FlatList data={CATEGORIES} renderItem={renderCategoriesItem} keyExtractor={item => item.id}/>
-      <View>
-      </View>
-
-
+      <FlatList
+        data={categories}
+        renderItem={renderCategoriesItem}
+        keyExtractor={item => item.id}
+      />
     </View>
   )
 }
@@ -33,17 +37,14 @@ const renderCategoriesItem = ({item}) => (
 export default CategoriesScreen
 
 const styles = StyleSheet.create({
-
-
-        container: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'white',
-        },
-        categoriesContainer: {
-          padding: 10,
-          height: 200,
-          backgroundColor: 'red',
-        }
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  categoriesContainer: {
+    padding: 15,
+    height: 150,
+  },
 })

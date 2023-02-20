@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
 import ShopNavigator from "./src/navigation/ShopNavigator";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
@@ -18,7 +19,9 @@ export default function App() {
   }
 
   return (
+    <Provider store={store}>
     <NavigationContainer>
   <BottomTabNavigator/>
   </NavigationContainer>
+  </Provider>
 )}

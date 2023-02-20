@@ -1,49 +1,52 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native"
+import { confirmCart, removeItem } from "../store/actions/cart.action"
+import { useDispatch, useSelector } from "react-redux"
 
-import { CART } from '../data/Cart'
-import CartItem from '../components/CartItem'
-import React from 'react'
+import CartItem from "../components/CartItem"
+import React from "react"
 
-const CartScreen = ({item, onDelete}) => {
+const CartScreen = () => {
+  const dispatch = useDispatch()
+  const items = useSelector(state => state.cart.items)
+  const total = useSelector(state => state.cart.total)
 
-    const total = 120
+  const handleConfirmCart = () => {
+    dispatch(confirmCart(items, total))
+  }
 
-    const handleConfirmCart = () => {
-        console.log('confirmar carrito')
-    }
+  const handleDeleteItem = id => {
+    console.log(id)
+    dispatch(removeItem(id))
+  }
 
-    const handleDeleteItem = () => {
-        console.log('borrar elemento')
-    }
-
-    const renderCartItem = () => {
-        <CartItem item={item} onDelete={handleDeleteItem}/>
-    } 
-
-//--------- FLATLIST OBLIGATORIOS
+  const renderCartItem = ({ item }) => (
+    <CartItem item={item} onDelete={handleDeleteItem} />
+  )
 
   return (
     <View style={styles.container}>
-        <View style={styles.list}>
+      <View style={styles.list}>
         <FlatList
-        data={CART}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCartItem}
+          data={items}
+          keyExtractor={item => item.id}
+          renderItem={renderCartItem}
         />
-        </View>
-        <View style={styles.footer}>
-            <TouchableOpacity style={styles.confirm}
-            onPress={handleConfirmCart}>
-                
-                <Text>Confirmar</Text>
-                <View style={styles.total}>
-                    <Text style={styles.text}>
-                        total
-                    </Text >
-                    <Text style={styles.text}>${total}</Text>
-                </View>
-            </TouchableOpacity>
-        </View>
+      </View>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.confirm} onPress={handleConfirmCart}>
+          <Text>Confirmar</Text>
+          <View style={styles.total}>
+            <Text style={styles.text}>Total</Text>
+            <Text style={styles.text}>${total}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -51,39 +54,33 @@ const CartScreen = ({item, onDelete}) => {
 export default CartScreen
 
 const styles = StyleSheet.create({
-
-
-    footer: {
-        flex: 1,
-        padding: 12,
-        backgroundColor: 'blue',
-        paddingBottom: 120,
-    },
-
-    list: {
-        flex: 1
-    },
-
-    footer: {
-        padding: 12,
-        borderTopColor: '#ccc',
-        borderTopWidth: 1,
-    },
-
-    confirm: {
-        backgroundColor: '#ccc',
-        borderRadius: 10,
-        padding: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-
-    total: {
-        flexDirection: 'row',
-    },
-
-    text: {
-        
-    }
+  container: {
+    flex: 1,
+    padding: 12,
+    backgroundColor: "#fff",
+    paddingBottom: 120,
+  },
+  list: {
+    flex: 1,
+  },
+  footer: {
+    padding: 12,
+    borderTopColor: "#ccc",
+    borderTopWidth: 1,
+  },
+  confirm: {
+    backgroundColor: "#ccc",
+    borderRadius: 10,
+    padding: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  total: {
+    flexDirection: "row",
+  },
+  text: {
+    fontSize: 18,
+    padding: 8,
+  },
 })
